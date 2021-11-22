@@ -1,0 +1,26 @@
+{
+    "manifest_version" : 2,
+    "name" : "Aneri",
+    "description" : "Watch Einthusan in sync with friends",
+    "version" : "1.0.0",
+    "content_scripts" : [
+        {
+            "matches" : ["https://einthusan.tv/movie/watch/*"],
+            "js": ["default.js"]
+        }
+    ],
+    "browser_action" : {
+        "default_icon" : "icon.png",
+        "default_title" : "Aneri",
+        "default_popup": "popup.html"
+    },
+    "background" : {
+        "page" : "firebase.html"
+    },
+    "permissions": [
+        "tabs",
+        "activeTab"
+    ],
+    "incognito":"split",
+    "content_security_policy": "script-src 'self' https://www.gstatic.com/ https://console.firebase.google.com/* https://*.firebaseio.com https://www.googleapis.com; object-src 'self'; connect-src 'self' wss://*.firebaseio.com;"
+}
