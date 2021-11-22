@@ -7,7 +7,7 @@ It synchronizes video playback functionality across all connected clients.
 This is the Chrome extension has not yet been published to the Chrome Web store.
 
 ### Output Screenshot
-![Alt text](screenshot.gif?raw=true)
+![Alt text](screenshot.mp4?raw=true)
 
 ### Todo
 * Fix Play/Pause synchronization
