@@ -1,12 +1,6 @@
 // firebase config
 firebase.initializeApp({
-    apiKey: "AIzaSyDvR3QgPMqvPICiEH7Orz5h_k504dSsrm0",
-    authDomain: "aneri-6e3e1.firebaseapp.com",
-    databaseURL: "https://aneri-6e3e1-default-rtdb.firebaseio.com",
-    projectId: "aneri-6e3e1",
-    storageBucket: "aneri-6e3e1.appspot.com",
-    messagingSenderId: "320073937008",
-    appId: "1:320073937008:web:918ef43c800efe1e9b04b5"
+    /* firebase config */
 });
 
 function listener(key) {
