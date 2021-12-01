@@ -10,4 +10,5 @@ This is the Chrome extension has not yet been published to the Chrome Web store.
 ![Alt text](https://media.giphy.com/media/lqX1g8aIhvSQ60yafi/giphy.gif)
 
 ### Todo
+* Update Aneri UI
 * Fix Play/Pause synchronization
