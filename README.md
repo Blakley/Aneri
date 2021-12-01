@@ -1,8 +1,8 @@
 # Aneri 
-- Multi-Client video streaming, Watch Einthusan movies in sync with friends
+- Multi-Client video streaming, Watch movies in sync with friends
 
 ## Description
-Aneri is a Chrome extension for watching [Einthusan](https://einthusan.tv/) remotely with friends. 
+Aneri is a Chrome extension for watching movies remotely with friends. 
 It synchronizes video playback functionality across all connected clients.
 This is the Chrome extension has not yet been published to the Chrome Web store.
 
