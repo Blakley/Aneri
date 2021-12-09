@@ -295,7 +295,7 @@ ul {
 .extension-btn {
     width: 100%;
     margin-top: 10px;
-    background: #0094d2;
+    background: #395174;
     color: var(--base-white);
     padding: 10px 0;
     border-radius: 2px;
@@ -309,7 +309,7 @@ ul {
 }
 
 .extension-btn:hover {
-    background: #036b97
+    background: #5274a7
 }
 
 .extension-btn a {
@@ -381,7 +381,7 @@ html {
 .no-error button {
     font-weight: var(--medium);
     cursor: pointer;
-    background-color: #0094d2;
+    background-color: #395174;
     transition: .3s ease;
     font-size: 13px;
     margin-top: 16px;
@@ -424,11 +424,15 @@ html {
 #accept-permissions :hover,
 #create-session,
 #create-session:hover {
-    background: #0094d2;
+    background: #395174;
 }
 
 #streaming-txt {
     text-align: center;
+}
+
+#ext-title, #streaming-txt, #description {
+    cursor: pointer !important;
 }
 
 #ext-title {
@@ -513,5 +517,5 @@ html {
 }
 
 #description {
-    text-align: center;
+    margin-left: 10%;
 }

@@ -1,26 +1,35 @@
 {
-    "manifest_version" : 2,
-    "name" : "Aneri",
-    "description" : "Watch Einthusan in sync with friends",
-    "version" : "1.0.0",
-    "content_scripts" : [
-        {
-            "matches" : ["https://einthusan.tv/movie/watch/*"],
-            "js": ["default.js"]
-        }
+    "name": "Aneri",
+    "version": "1.0",
+    "description": "Watch Einthusan with friends",
+    "permissions": ["declarativeContent", "tabs", "activeTab"],
+    "content_scripts": [{
+        "matches": ["https://einthusan.tv/movie/watch/*"],
+        "js": ["scripts/null.js"]
+    }], 
+    "web_accessible_resources": [
+        "styles/interface.css"
     ],
-    "browser_action" : {
-        "default_icon" : "icon.png",
+    "background": {
+        "page" : "pages/background.html",
+        "persistent": false
+    },
+    "browser_action": {
         "default_title" : "Aneri",
-        "default_popup": "popup.html"
+        "default_popup": "pages/popup.html",
+        "default_icon": {
+            "16": "images/icons/icon_16.png",
+            "32": "images/icons/icon_32.png",
+            "48": "images/icons/icon_64.png",
+            "128": "images/icons/icon_128.png"
+        }
     },
-    "background" : {
-        "page" : "firebase.html"
+    "icons": {
+        "16": "images/icons/icon_16.png",
+        "32": "images/icons/icon_32.png",
+        "48": "images/icons/icon_64.png",
+        "128": "images/icons/icon_128.png"
     },
-    "permissions": [
-        "tabs",
-        "activeTab"
-    ],
     "incognito":"split",
-    "content_security_policy": "script-src 'self' https://www.gstatic.com/ https://console.firebase.google.com/* https://*.firebaseio.com https://www.googleapis.com; object-src 'self'; connect-src 'self' wss://*.firebaseio.com;"
-}
+    "manifest_version": 2
+  }
