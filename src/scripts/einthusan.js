@@ -176,8 +176,9 @@ function notify(message) {
     });
 
     setTimeout(() => {
-        $("#UINotify #close-notify").click()
+        $(".UINotify .close").click()
     }, 2000);
+
 }
 
 /* */
@@ -255,10 +256,22 @@ function create() {
         sharing.appendChild(s_text);
         document.body.appendChild(sharing);
         document.getElementById('input_field').value = link;
+
+        // copy to clipboard
+        let clipboard = document.createElement('input');
+        clipboard.value = link;
+        document.body.appendChild(clipboard);
+        clipboard.select();
+        document.execCommand('copy');
+        document.body.removeChild(clipboard);
     }
 
     link();
+    // notify('Movie link copied');
 }
+
+/* */
+
 
 /* */
 function terminate() {

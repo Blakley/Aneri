@@ -1,10 +1,12 @@
-// Globals
+// ---------------- Globals ----------------
 let screen_name = "Ant";
 let user_reaction = document.getElementById("reaction-icon");
 let aneri_info = document.querySelector("#info");
 let user_input = document.querySelector(".input_text");
 let mic_enabled = false;
 let ui_state = "state-create";
+
+// --------- Button interactions -----------
 
 // menu button click
 let menu_btn = document.getElementById("menu-button");
@@ -79,17 +81,17 @@ menu_btn_2.onclick = function () {
         user_input.style.visibility = "visible";
         user_input.id = "create-input";
 
-        // TODO: Page is not defined at this point
-        // Just send message: link copied to clipboard, then submit for them
-        // notify('Copy link to share with friends then press enter to continue.');
-        create(); 
-
+        create();
+        setTimeout(() => {
+            input_sumbit.click();
+            joinChat();
+        }, 1000);
+    
         menu.style.width='350px';
         ui_state = ui;
     } 
     else if (ui == "state-movie") {
-        // microphone clicked
-        enableMic();
+        toggleMic();
     }
     else if (ui == "state-reaction") {
         // document.getElementById("reaction-name").innerText =  '"'+ screen_name + '"';
@@ -189,10 +191,16 @@ input_sumbit.onclick = function() {
             // TODO: check validity of provided link
             user_input.children[0].value = "";
             user_input.children[0].placeholder = "joining party ...";
+            
             setTimeout(() => {
-                menu.style.width='350px'; // input width
-                movieUI();
-            }, 2000);
+                join();
+                joinChat();
+                setTimeout(() => {
+                    menu.style.width='350px'; 
+                    movieUI();
+                }, 1000);
+            }, 1500);
+
         }
         else {
             setTimeout(() => { menu_btn.click(); }, 1000);
@@ -214,6 +222,9 @@ input_sumbit.onclick = function() {
     }
 }
 
+// -----------------------------------------
+
+/* */
 function movieUI() {
     // set UI state
     ui_state = "state-movie";
@@ -253,6 +264,7 @@ function movieUI() {
     
 }
 
+/* */
 function movieReactions() {
     // set UI state
     ui_state = "state-reaction";
@@ -274,19 +286,7 @@ function movieReactions() {
     menu_btn_4.children[1].innerText = "sad";
 }
 
-function enableMic() {
-    let mic = menu_btn_2.children[0];
-    if (mic.className == "fa fa-microphone-slash") {
-        mic.className = "fa fa-microphone"; // on
-        mic_enabled = true;
-    }
-    else {
-        mic.className = "fa fa-microphone-slash"; // off
-        mic_enabled = false;
-    }
-    // TODO: [read: https://medium.com/swlh/how-to-add-voice-chat-feature-to-netflix-party-ff0390d39c9c]
-}
-
+/* */
 function aneriInfo() {
     // set state
     ui_state = "state-info"; 
@@ -305,6 +305,7 @@ function aneriInfo() {
     aneri_info.style.visibility = "visible"; // info enable
 }
 
+/* */
 function aneriSettings() {
     // set state
     ui_state = "state-settings"; 
@@ -325,4 +326,75 @@ function aneriSettings() {
     // screen name
     user_input.style.visibility = "visible";
     user_input.children[0].placeholder = "screen name: " + screen_name;
+}
+
+/* --------------- Voice chat --------------- */
+
+let voice_chat = {
+    client: null,
+    localAudioTrack: null,
+};
+  
+// f3ea48d1f3944023a0159fc6be510867
+
+let chat_options = {
+    appId: "a6af85f840ef43108491705e2315a857",
+    channel: null,
+    token: null,
+};
+
+/* */
+async function joinChat() {
+    try 
+    {
+        let link_id = document.getElementById('sharing').innerText.split('#')[1];
+        chat_options.appId = "a6af85f840ef43108491705e2315a857";
+        chat_options.channel = link_id;
+        
+        voice_chat.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+        const uid = await voice_chat.client.join(chat_options.appId, chat_options.channel, chat_options.token, null);
+
+        voice_chat.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+        await voice_chat.client.publish([voice_chat.localAudioTrack]);
+
+        voice_chat.client.on("user-published", async (user, mediaType) => {
+            await voice_chat.client.subscribe(user, mediaType);
+            console.log("user: " + uid + " joined the chat");
+
+            if (mediaType === "audio") {
+                const remoteAudioTrack = user.audioTrack;
+                remoteAudioTrack.play();
+            }
+        });
+
+        voice_chat.client.on("user-unpublished", user => {
+            console.log("user: " + uid + " left the chat");
+        });
+
+        voice_chat.localAudioTrack.setEnabled(false); // turn of initially
+    } 
+    catch (error) {
+        console.error(error);
+    } 
+}
+
+/* */
+async function leaveChat() {
+    voice_chat.localAudioTrack.close();
+    await voice_chat.client.leave();
+}
+
+/* */
+function toggleMic() {
+    let mic = menu_btn_2.children[0];
+    if (mic.className == "fa fa-microphone-slash") {
+        mic.className = "fa fa-microphone"; // on
+        mic_enabled = true;
+        voice_chat.localAudioTrack.setEnabled(true);
+    }
+    else {
+        mic.className = "fa fa-microphone-slash"; // off
+        mic_enabled = false;
+        voice_chat.localAudioTrack.setEnabled(false);
+    }
 }
